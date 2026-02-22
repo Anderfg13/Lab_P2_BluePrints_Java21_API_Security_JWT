@@ -25,6 +25,9 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/actuator/health", "/auth/login").permitAll()
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                .requestMatchers("/api/v1/blueprints/**").hasAuthority("SCOPE_blueprints.read")
+                .requestMatchers("/api/v1/blueprints").hasAuthority("SCOPE_blueprints.write")
+                .requestMatchers("/api/v1/blueprints/**/points").hasAuthority("SCOPE_blueprints.addPoint")
                 .requestMatchers("/api/**").hasAnyAuthority("SCOPE_blueprints.read", "SCOPE_blueprints.write")
                 .anyRequest().authenticated()
             )
