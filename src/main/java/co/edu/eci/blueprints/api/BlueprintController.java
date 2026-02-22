@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import co.edu.eci.blueprints.api.ApiResponse;
 
 @RestController
 @RequestMapping("/api/blueprints")

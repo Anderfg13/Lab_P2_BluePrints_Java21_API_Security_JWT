@@ -26,10 +26,30 @@ public class AuthController {
     public record LoginRequest(String username, String password) {}
     public record TokenResponse(String access_token, String token_type, long expires_in) {}
 
+    /**
+     * Autentica al usuario y devuelve un token JWT.
+     *
+     * @param req Datos de login (username, password)
+     * @return Token JWT y detalles
+     */
+    @io.swagger.v3.oas.annotations.Operation(
+        summary = "Login de usuario",
+        description = "Autentica al usuario y devuelve un token JWT válido para acceder a los endpoints protegidos.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponses({
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Autenticación exitosa", content = @io.swagger.v3.oas.annotations.media.Content(
+            mediaType = "application/json",
+            examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"access_token\":\"eyJ...\",\"token_type\":\"Bearer\",\"expires_in\":3600}")
+        )),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Credenciales inválidas", content = @io.swagger.v3.oas.annotations.media.Content(
+            mediaType = "application/json",
+            examples = @io.swagger.v3.oas.annotations.media.ExampleObject(value = "{\"error\":\"invalid_credentials\"}")
+        ))
+    })
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest req) {
+    public ResponseEntity<co.edu.eci.blueprints.api.ApiResponse<TokenResponse>> login(@RequestBody LoginRequest req) {
         if (!userService.isValid(req.username(), req.password())) {
-            return ResponseEntity.status(401).body(Map.of("error", "invalid_credentials"));
+            return ResponseEntity.status(401)
+                .body(new co.edu.eci.blueprints.api.ApiResponse<>(401, "invalid_credentials", null));
         }
 
         Instant now = Instant.now();
@@ -49,6 +69,7 @@ public class AuthController {
         JwsHeader jws = JwsHeader.with(() -> "RS256").build();
         String token = this.encoder.encode(JwtEncoderParameters.from(jws, claims)).getTokenValue();
 
-        return ResponseEntity.ok(new TokenResponse(token, "Bearer", ttl));
+        TokenResponse response = new TokenResponse(token, "Bearer", ttl);
+        return ResponseEntity.ok(new co.edu.eci.blueprints.api.ApiResponse<>(200, "Success", response));
     }
 }
