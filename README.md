@@ -22,6 +22,16 @@ Incluye un endpoint didáctico `/auth/login` que emite el token para facilitar l
 - Git
 
 ---
+## Integrantes
+- Anderson Fabian Garcia Nieto
+- Juana Lozano Chaves
+
+---
+
+### Informe de laboratorio
+Link: https://docs.google.com/document/d/1Pz_s76wuT5MCZFGHP0pIk3pkg6nSVE21QsPQyBdOpzE/edit?usp=sharing 
+
+---
 
 ## Ejecución del proyecto
 1. Clonar o descomprimir el proyecto:
@@ -31,7 +41,14 @@ Incluye un endpoint didáctico `/auth/login` que emite el token para facilitar l
    ```
    ó si el profesor entrega el `.zip`, descomprimirlo y entrar en la carpeta.
 
-2. Ejecutar con Maven:
+2. Creación de base de datos localmente (En el cmd ejecutar)
+
+```cmd
+   docker run --name mi-postgres -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin123 -e POSTGRES_DB=mi_basedatos -p 5432:5432 -d postgres
+   ```
+
+
+3. Ejecutar con Maven:
    ```bash
    mvn -q -DskipTests spring-boot:run
    ```
