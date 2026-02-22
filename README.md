@@ -109,17 +109,33 @@ Content-Type: application/json
 ## Estructura del proyecto
 ```
 src/main/java/co/edu/eci/blueprints/
-  ├── api/BlueprintController.java       # Endpoints protegidos
-  ├── auth/AuthController.java           # Login didáctico para emitir tokens
-  ├── config/OpenApiConfig.java          # Configuración Swagger + JWT
-  └── security/
-       ├── SecurityConfig.java
-       ├── MethodSecurityConfig.java
-       ├── JwtKeyProvider.java
-       ├── InMemoryUserService.java
-       └── RsaKeyProperties.java
+  ├── api/
+  │   ├── BlueprintController.java       # Endpoints protegidos (negocio)
+  │   ├── BlueprintsAPIController.java   # Endpoints avanzados (negocio)
+  │   └── ApiResponse.java               # Estructura estándar de respuesta
+  ├── auth/
+  │   └── AuthController.java            # Login didáctico para emitir tokens
+  ├── config/
+  │   └── OpenApiConfig.java             # Configuración Swagger + JWT
+  ├── security/
+  │   ├── SecurityConfig.java            # Reglas de seguridad y scopes
+  │   ├── MethodSecurityConfig.java      # Seguridad a nivel de método
+  │   ├── JwtKeyProvider.java            # Proveedor de llaves JWT
+  │   ├── InMemoryUserService.java       # Servicio de usuarios en memoria
+  │   └── RsaKeyProperties.java          # Propiedades de llaves RSA
+  ├── dto/
+  │   ├── BlueprintDTO.java              # DTO para blueprints
+  │   ├── PointDTO.java                  # DTO para puntos
+  │   └── BlueprintMapper.java           # Mapper DTO/entidad
+  ├── model/
+  │   ├── Blueprint.java                 # Entidad blueprint
+  │   └── Point.java                     # Entidad punto
+  └── persistence/
+      ├── BlueprintNotFoundException.java
+      ├── BlueprintPersistenceException.java
+      └── BlueprintsServices.java        # Lógica de negocio
 src/main/resources/
-  └── application.yml
+  └── application.yml                    # Configuración de la aplicación
 ```
 
 ---
